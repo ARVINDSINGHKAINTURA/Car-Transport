@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        li {
+            margin-left: 20px;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+    
+        </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">BMW</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="models.html">Models</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+</body>
+<script>
+    export default {
+        name: 'BMWPage',
+        data() {
+            return {
+                message: 'Welcome to the BMW page!'
+            };
+        }
+    };
+    let message = 'Welcome to the BMW page!';
+    console.log(message);
+    
+</script>
+</html>

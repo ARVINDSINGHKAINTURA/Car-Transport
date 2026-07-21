@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Maruti Suzuki · Showroom</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- RESET & BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    :root {
+      --bg: #f4f8fc;
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --text-primary: #0b1a2e;
+      --text-secondary: #1f3a57;
+      --glass-border: rgba(255, 255, 255, 0.35);
+      --shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.20);
+      --accent-blue: #0047ab;
+      --accent-red: #c8102e;
+      --input-bg: rgba(255, 255, 255, 0.5);
+      --hero-overlay: rgba(0, 20, 50, 0.5);
+      --modal-bg: rgba(255, 255, 255, 0.92);
+      --filter-bg: var(--card-bg);
+    }
+
+    body.dark {
+      --bg: #0d1b2a;
+      --card-bg: rgba(20, 35, 55, 0.75);
+      --text-primary: #e8edf3;
+      --text-secondary: #b6c8e0;
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.6);
+      --input-bg: rgba(30, 50, 70, 0.5);
+      --modal-bg: rgba(25, 40, 60, 0.92);
+      --filter-bg: rgba(20, 35, 55, 0.7);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 0 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.25s, color 0.2s;
+    }
+
+    .container {
+      max-width: 1440px;
+      width: 100%;
+    }
+
+    /* ----- GLASS NAVIGATION ----- */
+    .navbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 2rem;
+      margin: 1.5rem 0 2.5rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      border-radius: 60px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      transition: background 0.25s, border 0.2s;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+    .brand i {
+      color: var(--accent-red);
+      font-size: 2rem;
+    }
+    .brand span {
+      color: var(--accent-blue);
+    }
+    .brand small {
+      font-weight: 400;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-left: 4px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .theme-toggle {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      background: var(--input-bg);
+      border-radius: 40px;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 0 4px;
+      transition: 0.25s;
+      box-shadow: var(--shadow);
+    }
+    .theme-toggle input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .theme-toggle .slider {
+      width: 22px;
+      height: 22px;
+      background: var(--accent-blue);
+      border-radius: 50%;
+      transition: 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.8rem;
+    }
+    .theme-toggle input:checked + .slider {
+      transform: translateX(18px);
+      background: #f1c40f;
+    }
+    .theme-toggle .slider i {
+      font-size: 0.7rem;
+    }
+
+    /* ----- HERO SECTION ----- */
+    .hero {
+      background: linear-gradient(135deg, #001a33 0%, #002b5c 100%), url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iODAiIGZpbGw9IiMwMDJiNWMiLz48cGF0aCBkPSJNMzAgMTBoMjB2MTBIMzB6TTEwIDMwaDYwdjEwSDEwek0zMCA1MGgyMHYxMEgzMHpNMTAgNzBoNjB2MTBIMTB6IiBmaWxsPSIjMDA0N2FiIiBvcGFjaXR5PSIwLjIiLz48L3N2Zz4=');
+      background-blend-mode: overlay;
+      background-size: cover;
+      background-position: center;
+      padding: 3.5rem 2rem;
+      border-radius: 48px;
+      margin-bottom: 2.8rem;
+      color: white;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--hero-overlay);
+      backdrop-filter: blur(3px);
+      border-radius: 48px;
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 7vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.1;
+    }
+    .hero h1 i {
+      color: #ffd966;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 550px;
+    }
+
+    /* ----- TOOLBAR: FILTERS & SEARCH ----- */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .filter-group input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .filter-btn {
+      background: var(--filter-bg);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--glass-border);
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text-primary);
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+      display: inline-block;
+      user-select: none;
+    }
+    .filter-btn:hover {
+      transform: translateY(-2px);
+      background: var(--accent-blue);
+      color: white;
+    }
+    .filter-group input[type="radio"]:checked + .filter-btn {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      backdrop-filter: blur(4px);
+      border-radius: 60px;
+      padding: 0.2rem 0.2rem 0.2rem 1.5rem;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+    }
+    .search-box i {
+      color: var(--text-secondary);
+    }
+    .search-box input {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.95rem;
+      min-width: 160px;
+      color: var(--text-primary);
+      outline: none;
+    }
+    .search-box input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.6;
+    }
+    .search-box button {
+      background: var(--accent-red);
+      border: none;
+      color: white;
+      padding: 0.5rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .search-box button:hover {
+      background: #a00d24;
+    }
+
+    /* ----- CAR GRID (GLASSMORPHISM) ----- */
+    .car-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0 3rem;
+    }
+
+    /* Each car card is a clickable link to open modal */
+    .car-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .car-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      border-radius: 32px;
+      padding: 1.2rem 1.2rem 1.8rem;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+    }
+    .car-card:hover {
+      transform: translateY(-10px) scale(1.01);
+      box-shadow: 0 30px 50px -12px rgba(0, 30, 70, 0.3);
+      border-color: var(--accent-blue);
+    }
+    .car-card img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 24px;
+      background: #d9e2ec;
+      margin-bottom: 1rem;
+      transition: 0.3s;
+      pointer-events: none; /* image click goes to parent link */
+    }
+    .car-card:hover img {
+      transform: scale(1.02);
+    }
+    .car-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0.2rem 0 0.1rem;
+    }
+    .car-card .badge {
+      background: var(--accent-blue);
+      color: white;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      margin-top: 0.2rem;
+      display: inline-block;
+    }
+    .car-card .price-tag {
+      margin-top: 0.7rem;
+      font-weight: 600;
+      color: var(--accent-red);
+      background: rgba(200, 16, 46, 0.08);
+      padding: 0.2rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+    }
+
+    /* ----- MODAL (POPUP) using :target ----- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 999;
+    }
+    .modal-overlay:target {
+      display: flex;
+      animation: fadeIn 0.25s;
+    }
+    .modal {
+      background: var(--modal-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 48px;
+      padding: 2rem 2rem 2.2rem;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 40px 70px -10px rgba(0,0,0,0.6);
+      position: relative;
+      animation: scaleUp 0.25s;
+    }
+    .modal-close {
+      position: sticky;
+      top: 0;
+      float: right;
+      background: var(--accent-red);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 40px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      text-align: center;
+      line-height: 40px;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      transition: 0.2s;
+    }
+    .modal-close:hover {
+      background: #a00;
+      transform: rotate(90deg);
+    }
+    .modal-gallery {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding: 0.5rem 0 1rem;
+      scroll-snap-type: x mandatory;
+    }
+    .modal-gallery img {
+      flex: 0 0 auto;
+      width: 120px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 20px;
+      scroll-snap-align: start;
+      border: 2px solid transparent;
+      transition: 0.2s;
+      background: #d9e2ec;
+    }
+    .modal-gallery img:hover {
+      border-color: var(--accent-blue);
+      transform: scale(1.03);
+    }
+    .modal h2 {
+      font-size: 2rem;
+      margin: 0.2rem 0 0.1rem;
+    }
+    .modal .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.5rem;
+      margin: 0.5rem 0 1.2rem;
+      color: var(--text-secondary);
+    }
+    .modal .meta i {
+      margin-right: 6px;
+      color: var(--accent-blue);
+    }
+    .modal .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      background: var(--input-bg);
+      padding: 1.5rem;
+      border-radius: 28px;
+      margin: 1rem 0 0.8rem;
+    }
+    .modal .spec-grid div {
+      display: flex;
+      flex-direction: column;
+    }
+    .modal .spec-grid .label {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+    .modal .spec-grid .value {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .modal .color-dots {
+      display: flex;
+      gap: 10px;
+      margin: 0.8rem 0;
+      flex-wrap: wrap;
+    }
+    .modal .color-dots span {
+      width: 32px;
+      height: 32px;
+      border-radius: 40px;
+      border: 2px solid rgba(255,255,255,0.3);
+      display: inline-block;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scaleUp { from { transform: scale(0.96); opacity: 0.7; } to { transform: scale(1); opacity: 1; } }
+
+    /* ----- FOOTER ----- */
+    .footer {
+      margin-top: 3rem;
+      padding: 2rem 0 1rem;
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1.5rem;
+      color: var(--text-secondary);
+    }
+    .social i {
+      font-size: 1.6rem;
+      margin: 0 10px 0 0;
+      color: var(--text-secondary);
+      transition: 0.2s;
+    }
+    .social i:hover { color: var(--accent-blue); transform: scale(1.1); }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 640px) {
+      .navbar { padding: 0.6rem 1rem; border-radius: 40px; }
+      .brand { font-size: 1.1rem; }
+      .brand i { font-size: 1.5rem; }
+      .hero { padding: 2rem 1.2rem; border-radius: 28px; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .search-box input { min-width: 120px; }
+      .modal { padding: 1.5rem; }
+    }
+
+    /* ----- FILTER LOGIC (pure CSS via :checked) ----- */
+    .car-link { display: block; }
+    #filter-all:checked ~ .car-grid .car-link { display: block; }
+    #filter-hatchback:checked ~ .car-grid .car-link:not([data-type="hatchback"]) { display: none; }
+    #filter-sedan:checked ~ .car-grid .car-link:not([data-type="sedan"]) { display: none; }
+    #filter-suv:checked ~ .car-grid .car-link:not([data-type="suv"]) { display: none; }
+    #filter-mpv:checked ~ .car-grid .car-link:not([data-type="mpv"]) { display: none; }
+
+    /* search highlight - we use a simple trick: if input has value, we use :not(:placeholder-shown) to hide? 
+       Not possible to filter without JS. So we keep search as UI only, but we add a visual feedback.
+    */
+    .search-box:focus-within {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.2);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="brand">
+      <i class="fas fa-car"></i>
+      <span>Maruti</span>Suzuki <small>· showroom</small>
+    </div>
+    <div class="nav-actions">
+      <label class="theme-toggle">
+        <input type="checkbox" id="darkModeToggle" onchange="document.body.classList.toggle('dark')">
+        <span class="slider"><i class="fas fa-moon"></i></span>
+      </label>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1><i class="fas fa-star"></i> Drive the future</h1>
+      <p>Explore the complete range of Maruti Suzuki cars — iconic, reliable, and made for India.</p>
+    </div>
+  </section>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="filter-group">
+      <input type="radio" name="carfilter" id="filter-all" checked>
+      <label for="filter-all" class="filter-btn">All</label>
+      <input type="radio" name="carfilter" id="filter-hatchback">
+      <label for="filter-hatchback" class="filter-btn">Hatchback</label>
+      <input type="radio" name="carfilter" id="filter-sedan">
+      <label for="filter-sedan" class="filter-btn">Sedan</label>
+      <input type="radio" name="carfilter" id="filter-suv">
+      <label for="filter-suv" class="filter-btn">SUV</label>
+      <input type="radio" name="carfilter" id="filter-mpv">
+      <label for="filter-mpv" class="filter-btn">MPV</label>
+    </div>
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search models..." onkeyup="searchCars()">
+      <button onclick="searchCars()"><i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- CAR GRID -->
+  <div class="car-grid" id="carGrid">
+    <!-- Each car is wrapped in <a> with data-type for filtering, and href to its modal -->
+    <a href="#modal-alto" class="car-link" data-type="hatchback" data-name="Alto K10">
+      <div class="car-card">
+        <img src="https://maruti.kvrworld.com/packages/lavalite/gallery/gallery/14/image/tango_orange_1.png" alt="Alto K10">
+        <h3>Alto K10</h3>
+        <span class="badge">Hatchback</span>
+        <div class="price-tag">₹4.5 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-spresso" class="car-link" data-type="hatchback" data-name="S-Presso">
+      <div class="car-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzll1NMkPr47brjbohtfnWruTI-XhXRFetBA&s" alt="S-Presso">
+        <h3>S-Presso</h3>
+        <span class="badge">Hatchback</span>
+        <div class="price-tag">₹4.2 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-wagonr" class="car-link" data-type="hatchback" data-name="WagonR">
+      <div class="car-card">
+        <img src="https://avgmotors.co.in/wp-content/uploads/2022/03/Wagon-R-Metallic-Magma-Grey.png" alt="WagonR">
+        <h3>WagonR</h3>
+        <span class="badge">Hatchback</span>
+        <div class="price-tag">₹5.2 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-celerio" class="car-link" data-type="hatchback" data-name="Celerio">
+      <div class="car-card">
+        <img src="https://imgd-ct.aeplcdn.com/664x415/n/ws5hbua_1541093.jpg?q=80" alt="Celerio">
+        <h3>Celerio</h3>
+        <span class="badge">Hatchback</span>
+        <div class="price-tag">₹5.0 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-swift" class="car-link" data-type="hatchback" data-name="Swift">
+      <div class="car-card">
+        <img src="https://s3-ap-southeast-1.amazonaws.com/staticin.izmocars.com/toolkit/IN/2025/25marutisuzuki/25marutisuzukiswift/25marutisuzukiswift_pixGallery/_gallerypix/marutisuzuki_swift_concept.jpg" alt="Swift">
+        <h3>Swift</h3>
+        <span class="badge">Hatchback</span>
+        <div class="price-tag">₹6.5 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-dzire" class="car-link" data-type="sedan" data-name="Dzire">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=240&fit=crop&auto=format" alt="Dzire">
+        <h3>Dzire</h3>
+        <span class="badge">Sedan</span>
+        <div class="price-tag">₹7.2 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-baleno" class="car-link" data-type="hatchback" data-name="Baleno">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Baleno">
+        <h3>Baleno</h3>
+        <span class="badge">Hatchback</span>
+        <div class="price-tag">₹8.1 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-fronx" class="car-link" data-type="suv" data-name="Fronx">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Fronx">
+        <h3>Fronx</h3>
+        <span class="badge">SUV</span>
+        <div class="price-tag">₹8.6 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-brezza" class="car-link" data-type="suv" data-name="Brezza">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Brezza">
+        <h3>Brezza</h3>
+        <span class="badge">SUV</span>
+        <div class="price-tag">₹9.8 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-ertiga" class="car-link" data-type="mpv" data-name="Ertiga">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Ertiga">
+        <h3>Ertiga</h3>
+        <span class="badge">MPV</span>
+        <div class="price-tag">₹10.2 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-xl6" class="car-link" data-type="mpv" data-name="XL6">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="XL6">
+        <h3>XL6</h3>
+        <span class="badge">MPV</span>
+        <div class="price-tag">₹12.5 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-grandvitara" class="car-link" data-type="suv" data-name="Grand Vitara">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Grand Vitara">
+        <h3>Grand Vitara</h3>
+        <span class="badge">SUV</span>
+        <div class="price-tag">₹15.8 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-jimny" class="car-link" data-type="suv" data-name="Jimny">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Jimny">
+        <h3>Jimny</h3>
+        <span class="badge">SUV</span>
+        <div class="price-tag">₹14.5 Lakh</div>
+      </div>
+    </a>
+    <a href="#modal-invicto" class="car-link" data-type="mpv" data-name="Invicto">
+      <div class="car-card">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Invicto">
+        <h3>Invicto</h3>
+        <span class="badge">MPV</span>
+        <div class="price-tag">₹18.2 Lakh</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- ===== MODALS for each car (14 modals) ===== -->
+  <!-- We create a modal for each car with unique ID, containing all details -->
+
+  <!-- Modal: Alto K10 -->
+  <div class="modal-overlay" id="modal-alto">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Alto K10">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Alto K10">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Alto K10">
+      </div>
+      <h2>Alto K10</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹4.5 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / AMT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.0L K10</span></div>
+        <div><span class="label">Mileage</span><span class="value">24.7 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">4</span></div>
+        <div><span class="label">Type</span><span class="value">Hatchback</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#f0f0f0;"></span>
+        <span style="background:#1a2b3c;"></span>
+        <span style="background:#c8102e;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> LED DRLs, Power steering, AC</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, dual airbags</div>
+    </div>
+  </div>
+
+  <!-- Modal: S-Presso -->
+  <div class="modal-overlay" id="modal-spresso">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="S-Presso">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="S-Presso">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="S-Presso">
+      </div>
+      <h2>S-Presso</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹4.2 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / AMT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.0L K10</span></div>
+        <div><span class="label">Mileage</span><span class="value">24.1 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">4</span></div>
+        <div><span class="label">Type</span><span class="value">Hatchback</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#ffd966;"></span>
+        <span style="background:#e63946;"></span>
+        <span style="background:#1d3557;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> High ground clearance, SmartPlay</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, driver airbag</div>
+    </div>
+  </div>
+
+  <!-- Modal: WagonR -->
+  <div class="modal-overlay" id="modal-wagonr">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="WagonR">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="WagonR">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="WagonR">
+      </div>
+      <h2>WagonR</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹5.2 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol/CNG</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / AMT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.0L / 1.2L</span></div>
+        <div><span class="label">Mileage</span><span class="value">25.2 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">5</span></div>
+        <div><span class="label">Type</span><span class="value">Hatchback</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#f4f4f4;"></span>
+        <span style="background:#2b4c7c;"></span>
+        <span style="background:#b22222;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Tall-boy design, rear AC</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, rear parking sensors</div>
+    </div>
+  </div>
+
+  <!-- Modal: Celerio -->
+  <div class="modal-overlay" id="modal-celerio">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Celerio">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Celerio">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Celerio">
+      </div>
+      <h2>Celerio</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹5.0 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / AMT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.0L K10</span></div>
+        <div><span class="label">Mileage</span><span class="value">25.1 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">5</span></div>
+        <div><span class="label">Type</span><span class="value">Hatchback</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#e8e8e8;"></span>
+        <span style="background:#003366;"></span>
+        <span style="background:#cc0000;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Start-stop, 7-inch touchscreen</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, dual airbags</div>
+    </div>
+  </div>
+
+  <!-- Modal: Swift -->
+  <div class="modal-overlay" id="modal-swift">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Swift">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Swift">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Swift">
+      </div>
+      <h2>Swift</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹6.5 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / CVT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.2L DualJet</span></div>
+        <div><span class="label">Mileage</span><span class="value">22.5 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">5</span></div>
+        <div><span class="label">Type</span><span class="value">Hatchback</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#ffcc00;"></span>
+        <span style="background:#c8102e;"></span>
+        <span style="background:#1a1a2e;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Sporty styling, cruise control</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ESP, hill hold, 6 airbags</div>
+    </div>
+  </div>
+
+  <!-- Modal: Dzire -->
+  <div class="modal-overlay" id="modal-dzire">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=240&fit=crop&auto=format" alt="Dzire">
+        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=240&fit=crop&auto=format" alt="Dzire">
+        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=240&fit=crop&auto=format" alt="Dzire">
+      </div>
+      <h2>Dzire</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹7.2 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol/CNG</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / AMT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.2L DualJet</span></div>
+        <div><span class="label">Mileage</span><span class="value">22.5 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">5</span></div>
+        <div><span class="label">Type</span><span class="value">Sedan</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#f5f5f5;"></span>
+        <span style="background:#0b1a2e;"></span>
+        <span style="background:#b22222;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Boot space, auto AC</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, 6 airbags</div>
+    </div>
+  </div>
+
+  <!-- Modal: Baleno -->
+  <div class="modal-overlay" id="modal-baleno">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Baleno">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Baleno">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Baleno">
+      </div>
+      <h2>Baleno</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹8.1 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / CVT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.2L DualJet</span></div>
+        <div><span class="label">Mileage</span><span class="value">22.9 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">5</span></div>
+        <div><span class="label">Type</span><span class="value">Hatchback</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#e0e0e0;"></span>
+        <span style="background:#1f3a57;"></span>
+        <span style="background:#c8102e;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Premium interior, heads-up display</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ESP, 6 airbags, rear camera</div>
+    </div>
+  </div>
+
+  <!-- Modal: Fronx -->
+  <div class="modal-overlay" id="modal-fronx">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Fronx">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Fronx">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Fronx">
+      </div>
+      <h2>Fronx</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹8.6 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / 6-speed AT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.2L / 1.0L turbo</span></div>
+        <div><span class="label">Mileage</span><span class="value">20.5 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">5</span></div>
+        <div><span class="label">Type</span><span class="value">SUV</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#2b4c7c;"></span>
+        <span style="background:#e63946;"></span>
+        <span style="background:#f1f1f1;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Coupe SUV design, sunroof</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, 6 airbags, ESP</div>
+    </div>
+  </div>
+
+  <!-- Modal: Brezza -->
+  <div class="modal-overlay" id="modal-brezza">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Brezza">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Brezza">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Brezza">
+      </div>
+      <h2>Brezza</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹9.8 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol/CNG</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / 6-speed AT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.5L K15</span></div>
+        <div><span class="label">Mileage</span><span class="value">19.2 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">5</span></div>
+        <div><span class="label">Type</span><span class="value">SUV</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#1d3557;"></span>
+        <span style="background:#e63946;"></span>
+        <span style="background:#f1faee;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Panoramic sunroof, ventilated seats</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, 6 airbags, ESP</div>
+    </div>
+  </div>
+
+  <!-- Modal: Ertiga -->
+  <div class="modal-overlay" id="modal-ertiga">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Ertiga">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Ertiga">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Ertiga">
+      </div>
+      <h2>Ertiga</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹10.2 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol/CNG</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / 6-speed AT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.5L K15</span></div>
+        <div><span class="label">Mileage</span><span class="value">20.5 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">7</span></div>
+        <div><span class="label">Type</span><span class="value">MPV</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#1a2b3c;"></span>
+        <span style="background:#c8102e;"></span>
+        <span style="background:#e0e0e0;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> 7-seater, rear AC, roof rails</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, 4 airbags</div>
+    </div>
+  </div>
+
+  <!-- Modal: XL6 -->
+  <div class="modal-overlay" id="modal-xl6">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="XL6">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="XL6">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="XL6">
+      </div>
+      <h2>XL6</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹12.5 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / 6-speed AT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.5L K15</span></div>
+        <div><span class="label">Mileage</span><span class="value">20.3 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">6</span></div>
+        <div><span class="label">Type</span><span class="value">MPV</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#2b4c7c;"></span>
+        <span style="background:#b22222;"></span>
+        <span style="background:#f0f0f0;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Captain seats, LED lighting, sunroof</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ESP, 6 airbags, 360 camera</div>
+    </div>
+  </div>
+
+  <!-- Modal: Grand Vitara -->
+  <div class="modal-overlay" id="modal-grandvitara">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Grand Vitara">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Grand Vitara">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Grand Vitara">
+      </div>
+      <h2>Grand Vitara</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹15.8 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Hybrid</span>
+        <span><i class="fas fa-arrows-alt-h"></i> e-CVT / 5-speed MT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.5L hybrid</span></div>
+        <div><span class="label">Mileage</span><span class="value">27.7 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">5</span></div>
+        <div><span class="label">Type</span><span class="value">SUV</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#1d3557;"></span>
+        <span style="background:#c8102e;"></span>
+        <span style="background:#e8e8e8;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Panoramic sunroof, ventilated seats, 360 camera</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> 6 airbags, ESP, hill descent</div>
+    </div>
+  </div>
+
+  <!-- Modal: Jimny -->
+  <div class="modal-overlay" id="modal-jimny">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Jimny">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Jimny">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Jimny">
+      </div>
+      <h2>Jimny</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹14.5 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+        <span><i class="fas fa-arrows-alt-h"></i> 5-speed MT / 4-speed AT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">1.5L K15</span></div>
+        <div><span class="label">Mileage</span><span class="value">16.8 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">4</span></div>
+        <div><span class="label">Type</span><span class="value">SUV</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#f1c40f;"></span>
+        <span style="background:#2c3e50;"></span>
+        <span style="background:#c0392b;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Off-road DNA, ladder-frame, 4x4</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> ABS+EBD, 6 airbags, ESP</div>
+    </div>
+  </div>
+
+  <!-- Modal: Invicto -->
+  <div class="modal-overlay" id="modal-invicto">
+    <div class="modal">
+      <a href="#" class="modal-close"><i class="fas fa-times"></i></a>
+      <div class="modal-gallery">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Invicto">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Invicto">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=240&fit=crop&auto=format" alt="Invicto">
+      </div>
+      <h2>Invicto</h2>
+      <div class="meta">
+        <span><i class="fas fa-tag"></i> ₹18.2 Lakh</span>
+        <span><i class="fas fa-gas-pump"></i> Hybrid</span>
+        <span><i class="fas fa-arrows-alt-h"></i> e-CVT</span>
+      </div>
+      <div class="spec-grid">
+        <div><span class="label">Engine</span><span class="value">2.0L hybrid</span></div>
+        <div><span class="label">Mileage</span><span class="value">23.5 km/l</span></div>
+        <div><span class="label">Seats</span><span class="value">7</span></div>
+        <div><span class="label">Type</span><span class="value">MPV</span></div>
+      </div>
+      <div><strong>Colours</strong></div>
+      <div class="color-dots">
+        <span style="background:#1a2b3c;"></span>
+        <span style="background:#b22222;"></span>
+        <span style="background:#e0e0e0;"></span>
+      </div>
+      <div style="margin-top:0.8rem;"><strong>Key features</strong> Luxury captain seats, panoramic roof, ADAS</div>
+      <div style="margin-top:0.4rem;"><strong>Safety</strong> 9 airbags, ESP, 360 camera</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>© 2026 Maruti Suzuki India · Premium Showroom</div>
+    <div class="social">
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-facebook"></i>
+      <i class="fab fa-youtube"></i>
+      <i class="fab fa-twitter"></i>
+    </div>
+  </footer>
+</div>
+
+<!-- SIMPLE JAVASCRIPT FOR SEARCH (only search functionality, rest is pure HTML/CSS) -->
+<script>
+  function searchCars() {
+    var input = document.getElementById('searchInput');
+    var filter = input.value.toUpperCase();
+    var links = document.querySelectorAll('.car-link');
+    for (var i = 0; i < links.length; i++) {
+      var name = links[i].getAttribute('data-name') || '';
+      if (name.toUpperCase().indexOf(filter) > -1) {
+        links[i].style.display = '';
+      } else {
+        links[i].style.display = 'none';
+      }
+    }
+    // Also reset filter radio to 'All' when searching to avoid conflict
+    document.getElementById('filter-all').checked = true;
+    // re-trigger filter change? we just rely on display override.
+    // we also need to re-apply filter logic? we use inline display override, 
+    // but filter uses display:none on .car-link, so we need to ensure filter is off.
+    // We'll just uncheck filters and set to All, then search works.
+    // But filter CSS may still hide elements. We'll use a more robust approach:
+    // we override display with !important via style, but filter CSS has higher specificity?
+    // We'll add a class to body to disable filters when searching? 
+    // Better: we'll manage search by hiding/showing via JS and also uncheck filters.
+    // But filter CSS uses :checked to hide .car-link. If we uncheck all, they show.
+    // So we set 'All' checked and then apply search.
+    // However, if a filter is checked, it will hide elements. So we uncheck all.
+   let radios = document.querySelectorAll('input[name="carfilter"]');
+    for (let r = 0; r < radios.length; r++) {
+      if (radios[r].id === 'filter-all') {
+        radios[r].checked = true;
+      } else {
+        radios[r].checked = false;
+      }
+    }
+    // now re-run search with display override
+    for (let j = 0; j < links.length; j++) {
+      let name2 = links[j].getAttribute('data-name') || '';
+      if (name2.toUpperCase().indexOf(filter) > -1) {
+        links[j].style.display = '';
+      } else {
+        links[j].style.display = 'none';
+      }
+    }
+  }
+</script>
+</body>
+</html>
